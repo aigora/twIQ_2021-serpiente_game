@@ -1,10 +1,12 @@
-# [Título del trabajo]
+# [Juego de la serpiente]
 
-[Descripción breve del proyecto a realizar (2-3 frases).]
+En el juego, el jugador controla a una serpiente, que se mueve alrededor de un plano delimitado, recogiendo alimentos , tratando de evitar golpear a su propia cola o las paredes que la rodean.
 
 ## Integrantes del equipo
+Martin Nieto Bermejo -> MartinNieto
+Jesus Pereira Serrano -> jes550
+Diego Sillero Villanueva -> Diegosillero
 
-[Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
 
 ## Objetivos del trabajo
 
