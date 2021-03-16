@@ -10,4 +10,4 @@ Diego Sillero Villanueva -> Diegosillero
 
 ## Objetivos del trabajo
 
-[Lista de los objetivos que se persiguen con el trabajo propuesto.]
+Vamos a presentar este proyecto con el objetivo de crear un divertido y entretenido juego arcade. Para esto programaremos el clásico y mítico juego de la serpiente, el cual consiste en ir moviendo a una serpiente que comer frutas para crecer sin golpear ninguna pared o a sí misma.
