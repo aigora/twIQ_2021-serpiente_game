@@ -81,6 +81,7 @@ int main()
 						printf("Este juego consiste en:\n");
 						printf("Comer el mayor numero de manzanas posibles y no tocar asi mismo o el borde\n");
 						printf("Para mover la serpiente use a,s,d,w donde a sera hacia la izquierda,s sera hacia abajo,d sera hacia la derecha y w hacia arriba.\n");
+						printf("Si quiere pausar el juego use la letra p y pulse cualquier tecla para reanudar el juego\n");
 						printf("Ha medida que coma manzanas su puntuacion aumentara \n");
 						printf("Pulse 1 para volver al menu, 2 para salir\n");
 						scanf("%d", &respuesta4);
