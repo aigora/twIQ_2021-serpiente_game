@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #define V 30
-             	//Tamaño del campo de juego
+             	//Tamano del campo de juego
 #define H 70
-#define N 100 	//Tamaño de la serpiente
-#define n 20 //tamaño del nombre
+#define N 100 	//Tamano de la serpiente
+
 typedef struct
 {
 	int x, y;
@@ -27,24 +26,27 @@ typedef struct
 jug jugador[N];
 sprt serpiente[N];
 frt fruta;
+
 void inicio(int *lon, char campo[V][H]); 				//Inicia todos los elementos
 void Intro_Campo(char campo[V][H]); 					//Dibuja el campo de juego
 void Intro_Datos(char campo[V][H], int lon); 			//Introduce los datos en la matriz del campo (serpiente y fruta)
 void input(char campo[V][H], int *lon, int *muerto); 	//Programa
 void update(char campo[V][H],int lon); 					//Borra los datos de la matriz campo y los reescribe
 void Intro_Datos2(char campo[V][H], int lon); 			//Movimiento de la serpiente
-//void loop (char campo[V][H], int lon); 					//Ejecuta draw, input y update
+void loop (char campo[V][H], int lon); 					//Ejecuta draw, input y update
 char menu(void);
-int main(){
-        jug jugador[N];
+
+int main()
+{
+	jug jugador[N];
 	int lon,puntos;
 	char campo[V][H];
 	char h;
 	int i=0,iMax=0;
 	int respuesta, respuesta2, respuesta3, respuesta4, salir;
-	char nombre[n];
-	
-	do{
+	do
+	{
+		system("color 10");
 		printf("--------------------------------------------------------------\n");
 		printf("| Bienvenido al juego de la serpiente                        |\n");
 		printf("| Si quiere comenzar a jugar pulse 1 sino pulse 2 para salir |\n");
@@ -56,10 +58,10 @@ int main(){
 			case 1:
 				salir=0;
 				printf("Ha seleccionado jugar\n");
-				printf("Comienza el juego %s\n", nombre);
-				//comenzaria el juego
+				printf("Comienza el juego\n");
 				inicio(&lon, campo); 
 				loop(campo, lon);
+				//comenzaria el juego
 			break;
 		
 			case 2:
@@ -75,7 +77,7 @@ int main(){
 					case 1:
 						printf("Este juego consiste en:\n");
 						printf("Comer el mayor numero de manzanas posibles y no tocar asi mismo o el borde\n");
-						//despues poner controles cuando los tengamos
+						printf("para mover la serpiente use a,s,d,w donde a sera hacia la izquierda,s sera hacia abajo,d sera hacia la derecha y w hacia arriba.\n");
 						printf("Pulse 1 para volver al menu, 2 para salir\n");
 						scanf("%d", &respuesta4);
 						switch (respuesta4){
@@ -120,9 +122,11 @@ int main(){
 		}
 	}
 	while (salir==1);
+
 }
-//se inician todos los elementos
-void inicio(int*lon,char campo[V][H]
+	
+//Inicia todos los elementos
+void inicio (int *lon, char campo[V][H])
 {
 	int i;
 	//Cabeza de la serpiente
@@ -152,6 +156,7 @@ void inicio(int*lon,char campo[V][H]
 	Intro_Campo(campo);
 	Intro_Datos(campo, *lon);
 }
+
 //Creacion del campo de juego
 void Intro_Campo(char campo[V][H])
 {
@@ -176,6 +181,7 @@ void Intro_Campo(char campo[V][H])
 	}
 }
 
+//Datos en matriz de campo
 void Intro_Datos(char campo[V][H], int tam)
 {
 	int i;
@@ -207,3 +213,142 @@ void draw(char campo[V][H])
 		printf("\n");
 	}
 }
+
+void loop (char campo[V][H], int lon)
+{
+	int muerto = 0;
+	do
+	{
+		system("cls");
+		draw(campo);
+		input(campo,&lon,&muerto);
+		update(campo,lon);
+	}while(muerto == 0);
+	
+}
+
+void input(char campo[V][H], int *lon, int *muerto)
+{
+	int i, punt;
+	char key;
+	char nombre[10];
+	FILE *f;
+	//Comprobaci? de si hemos muerto
+	if(serpiente[0].x == 0 || serpiente[0].x == H-1 || serpiente[0].y == 0 || serpiente[0].y == V-1)
+	{
+		*muerto = 1;
+		system("color 0A");
+		printf("GAME OVER\n");
+	}
+	for(i = 1; i < *lon && *muerto == 0; i++)
+	{
+		if(serpiente[0].x == serpiente[i].x && serpiente[0].y == serpiente[i].y)
+		{
+			*muerto = 1;
+			system("color 0A");
+			printf("GAME OVER\n");
+		}
+	}
+	//Comprobar si nos hemos comido la fruta
+	if(serpiente[0].x == fruta.x && serpiente[0].y == fruta.y)
+	{
+		*lon +=1;
+		serpiente[*lon-1].imagen = 'O';
+		fruta.x = rand()%(H-1);
+		fruta.y = rand()%(V-1);
+		while(fruta.x == 0)
+		{
+			fruta.x = rand()%(H-1);
+		}
+		while(fruta.y == 0)
+		{
+			fruta.y = rand()%(V-1);
+		}
+	}
+	
+	if(*muerto == 1)
+	{
+		float puntuacion;
+		printf("Nombre:\t");
+		scanf ("%s", nombre);
+		punt=(*lon-4);
+		printf ("%s has ganado %i puntos\n", nombre, punt);
+		FILE *pf;
+		pf=fopen("puntos.txt", "r");
+		fscanf(pf, "%f\n", puntuacion);
+		if (puntuacion<punt){
+			printf("Nuevo record!!!");
+			FILE *nf;
+			nf=fopen("nombre.txt", "w");
+			fprintf(nf, "%s\n", nombre);
+			fclose(nf);
+			FILE *pf;
+			pf=fopen("puntos.txt", "w");
+			fscanf(pf, "%f\n", punt);
+		}
+	}
+	
+	if(*muerto == 0)
+	{
+		if(kbhit() == 1)
+		{
+			key = getch();
+			if(( key == 's') && serpiente[0].ModY != -1)
+			{
+				serpiente[0].ModX = 0;
+				serpiente[0].ModY = 1;
+			}
+			if(( key == 'w') && serpiente[0].ModY != 1)
+			{
+				serpiente[0].ModX = 0;
+				serpiente[0].ModY = -1;
+			}
+			if(( key == 'a' ) && serpiente[0].ModX != 1)
+			{
+				serpiente[0].ModX = -1;
+				serpiente[0].ModY = 0;
+			}
+			if(( key == 'd') && serpiente[0].ModX != -1)
+			{
+				serpiente[0].ModX = 1;
+				serpiente[0].ModY = 0;
+			}
+			if(key == 'p') 
+			{
+				system("color 03");
+				printf("Pause\n");
+				system("pause");
+			}
+			
+		}
+	}
+}
+
+void update(char campo[V][H],int lon)
+{
+	//Borrar los datos de la matriz
+	Intro_Campo(campo);
+	//Introducir nuevos datos
+	Intro_Datos2(campo,lon);
+}
+
+void Intro_Datos2(char campo[V][H], int lon)
+{
+	//Hacer que el cuerpo siga a la cabeza. Cada elemento copia al anterior menos la cabeza
+	int i;
+	for(i = lon-1 ; i > 0 ; i--)
+	{
+		serpiente[i].x = serpiente[i-1].x;
+		serpiente[i].y = serpiente[i-1].y;
+	}
+	serpiente[0].x += serpiente[0].ModX;
+	serpiente[0].y += serpiente[0].ModY;
+	
+	for(i = 0 ; i < lon ; i++)
+	{
+		campo[serpiente[i].y][serpiente[i].x] = serpiente[i].imagen;
+	}
+	
+	campo[fruta.y][fruta.x] = '#';
+}
+
