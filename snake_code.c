@@ -276,7 +276,7 @@ void input(char campo[V][H], int *lon, int *muerto)
 		printf("Vuelva a introducir su nombre para saber lo puntos obtenidos y si ha batido el record:\n");
 		scanf ("%s", nombre);
 		punt=(*lon-4);
-		printf ("%s has ganado %i puntos\n", nombre, punt);
+		printf ("%s has ganado %i puntos!!!\n", nombre, punt);
 		FILE *pf;
 		pf=fopen("puntos.txt", "r");
 		fscanf(pf, "%f\n", puntuacion);
