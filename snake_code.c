@@ -281,15 +281,17 @@ void input(char campo[V][H], int *lon, int *muerto)
 		FILE *pf;
 		pf=fopen("puntos.txt", "r");
 		fscanf(pf, "%f\n", puntuacion);
+		fclose(pf);
 		if (puntuacion<punt){
 			printf("Nuevo record!!!");
 			FILE *nf;
 			nf=fopen("nombre.txt", "w");
 			fprintf(nf, "%s\n", nombre);
 			fclose(nf);
-			FILE *pf;
-			pf=fopen("puntos.txt", "w");
-			fscanf(pf, "%f\n", punt);
+			FILE *fichero;
+			fichero=fopen("puntos.txt", "w");
+			fprintf(fichero, "%f\n", punt);
+			fclose(fichero);
 		}
 	}
 	
