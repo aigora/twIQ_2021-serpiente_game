@@ -59,8 +59,6 @@ int main()
 			case 1:
 				salir=0;
 				printf("Ha seleccionado jugar\n");
-				printf("Introduzca su nombre para empezar a jugar\n");
-				scanf("%s", nombre);
 				printf("Comienza el juego %s\n", nombre);
 				inicio(&lon, campo); 
 				loop(campo, lon);
