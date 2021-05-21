@@ -39,6 +39,7 @@ char menu(void);
 int main()
 {
 	jug jugador[N];
+	char nombre[N];
 	int lon,puntos;
 	char campo[V][H];
 	char h;
@@ -58,7 +59,9 @@ int main()
 			case 1:
 				salir=0;
 				printf("Ha seleccionado jugar\n");
-				printf("Comienza el juego\n");
+				printf("Introduzca su nombre para empezar a jugar\n");
+				scanf("%s", nombre);
+				printf("Comienza el juego %s\n", nombre);
 				inicio(&lon, campo); 
 				loop(campo, lon);
 				//comenzaria el juego
@@ -77,7 +80,9 @@ int main()
 					case 1:
 						printf("Este juego consiste en:\n");
 						printf("Comer el mayor numero de manzanas posibles y no tocar asi mismo o el borde\n");
-						printf("para mover la serpiente use a,s,d,w donde a sera hacia la izquierda,s sera hacia abajo,d sera hacia la derecha y w hacia arriba.\n");
+						printf("Para mover la serpiente use a,s,d,w donde a sera hacia la izquierda,s sera hacia abajo,d sera hacia la derecha y w hacia arriba.\n");
+						printf("Si quiere pausar el juego use la letra p y pulse cualquier tecla para reanudar el juego\n");
+						printf("Ha medida que coma manzanas su puntuacion aumentara \n");
 						printf("Pulse 1 para volver al menu, 2 para salir\n");
 						scanf("%d", &respuesta4);
 						switch (respuesta4){
@@ -233,7 +238,7 @@ void input(char campo[V][H], int *lon, int *muerto)
 	char key;
 	char nombre[10];
 	FILE *f;
-	//Comprobaci? de si hemos muerto
+	//Comprobacion de si hemos muerto
 	if(serpiente[0].x == 0 || serpiente[0].x == H-1 || serpiente[0].y == 0 || serpiente[0].y == V-1)
 	{
 		*muerto = 1;
@@ -269,24 +274,22 @@ void input(char campo[V][H], int *lon, int *muerto)
 	if(*muerto == 1)
 	{
 		float puntuacion;
-		printf("Nombre:\t");
+		printf("Vuelva a introducir su nombre para saber lo puntos obtenidos y si ha batido el record:\n");
 		scanf ("%s", nombre);
 		punt=(*lon-4);
-		printf ("%s has ganado %d puntos\n", nombre, punt);
+		printf ("%s has ganado %i puntos!!!\n", nombre, punt);
 		FILE *pf;
 		pf=fopen("puntos.txt", "r");
-		fscanf(pf, "%d\n", puntuacion);
-		fclose(pf);
+		fscanf(pf, "%f\n", puntuacion);
 		if (puntuacion<punt){
 			printf("Nuevo record!!!");
 			FILE *nf;
 			nf=fopen("nombre.txt", "w");
 			fprintf(nf, "%s\n", nombre);
 			fclose(nf);
-			FILE *fichero;
-			fichero=fopen("puntos.txt", "w");
-			fprintf(fichero, "%d\n", punt);
-			fclose(fichero);
+			FILE *pf;
+			pf=fopen("puntos.txt", "w");
+			fscanf(pf, "%f\n", punt);
 		}
 	}
 	
@@ -353,4 +356,3 @@ void Intro_Datos2(char campo[V][H], int lon)
 	
 	campo[fruta.y][fruta.x] = '#';
 }
-
